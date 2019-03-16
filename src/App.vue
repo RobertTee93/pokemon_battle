@@ -6,7 +6,7 @@
       <pokemon-two :allPokemon="allPokemon"></pokemon-two>
       <pokemon-detail v-if="selectedPokemonTwo" :pokemon="selectedPokemonTwo"></pokemon-detail>
     </div>
-    <button v-on:click="startBattle">Start Battle</button>
+    <button v-if="!battleStarted" v-on:click="startBattle">Start Battle</button>
     <poke-battle v-if="battleStarted" :pokemonOne="selectedPokemonOne" :pokemonTwo="selectedPokemonTwo"></poke-battle>
   </div>
 </template>
@@ -46,6 +46,12 @@ export default {
 
     eventBus.$on("pokemon-two-selected", (pokemon) => {
       this.selectedPokemonTwo = pokemon
+    })
+
+    eventBus.$on("reset-game", () => {
+      this.battleStarted = false
+      this.selectedPokemonOne = null
+      this.selectedPokemonTwo = null
     })
   },
   components: {
