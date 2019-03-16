@@ -91,6 +91,7 @@ export default {
 
 <style lang="css" scoped>
 
+
 #game-container {
   position: relative;
   background-image: url("http://www.pokemontopaz.net/uploads/misc/battlegrass.png");
@@ -119,11 +120,13 @@ export default {
   position: absolute;
   top: 150px;
   left: 20px;
+  animation: pokeOneMove 1s ease-out infinite;
 }
 #pokemon-two {
   position: absolute;
   left: 350px;
   top: 20px;
+  animation: pokeTwoMove 1s ease-out infinite;
 }
 
 #pokemon-one-health {
@@ -131,7 +134,7 @@ export default {
   border: 2px solid #000;
   border-radius: 5px;
   position: absolute;
-  top: 150px;
+  top: 140px;
   left: 18px;
 }
 
@@ -165,6 +168,62 @@ export default {
   border-radius: 10px;
   background-color: #366eec47;
   text-align: center;
+}
+
+@keyframes pokeOneMove {
+  20% {
+    position: absolute;
+    top: 147px;
+    left: 18px;
+  }
+  40% {
+    position: absolute;
+    top: 145px;
+    left: 16px;
+  }
+  60% {
+    position: absolute;
+    top: 147px;
+    left: 16px;
+  }
+  80% {
+    position: absolute;
+    top: 149px;
+    left: 18px;
+  }
+  100% {
+    position: absolute;
+    top: 150px;
+    left: 20px;
+  }
+}
+
+@keyframes pokeTwoMove {
+  20% {
+    position: absolute;
+    left: 352px;
+    top: 22px;
+  }
+  40% {
+    position: absolute;
+    left: 354px;
+    top: 24px;
+  }
+  60% {
+    position: absolute;
+    top: 24px;
+    left: 355px;
+  }
+  80% {
+    position: absolute;
+    top: 22px;
+    left: 353px;
+  }
+  100% {
+    position: absolute;
+    left: 350px;
+    top: 20px;
+  }
 }
 
 </style>

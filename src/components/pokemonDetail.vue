@@ -5,6 +5,7 @@
     <div class="poke-info">
       <h3>Types:</h3>
       <p v-for="types in pokemon.types">{{ types.type.name }}</p>
+      <hr>
       <p>Height: {{ pokemon.height }}0cm</p>
       <p>Weight: {{ pokemon.weight }}kg</p>
     </div>

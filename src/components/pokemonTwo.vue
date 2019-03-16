@@ -66,7 +66,35 @@ div {
 }
 
 img {
-  width: 50px;
+  width: 70px;
+  animation: wiggle 2s ease-out infinite;
+}
+
+@keyframes wiggle {
+  20% {
+    box-shadow:  inset -5px 0 5px 0 rgba(0,0,0,.4);
+    transform: rotate(7deg);
+  }
+
+  40% {
+    box-shadow:  inset -11px 0 5px 0 rgba(0,0,0,.4);
+    transform: rotate(-14deg);
+  }
+
+  60% {
+    box-shadow:  inset -5px 0 5px 0 rgba(0,0,0,.4);
+    transform: rotate(4deg);
+  }
+
+  80% {
+    box-shadow:  inset -8px 0 5px 0 rgba(0,0,0,.4);
+    transform: rotate(-2deg);
+  }
+
+  100% {
+    box-shadow:  inset -7px 0 5px 0 rgba(0,0,0,.4);
+    transform: rotate(0deg);
+  }
 }
 
 </style>
