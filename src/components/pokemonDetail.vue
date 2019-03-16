@@ -28,5 +28,16 @@ export default {
 
 <style lang="css" scoped>
 
+h2 {
+  color: #dd0021;
+  font-weight: 500;
+  font-size: 30px;
+  text-shadow: 0 0 1px black;
+}
+
+div {
+  text-align: center;
+}
+
 
 </style>

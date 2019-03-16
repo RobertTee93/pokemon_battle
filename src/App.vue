@@ -1,12 +1,10 @@
 <template lang="html">
   <div class="">
     <div v-if="!battleStarted" id="pokemon-container">
-      <pokemon-one :allPokemon="allPokemon"></pokemon-one>
-      <pokemon-detail v-if="selectedPokemonOne" :pokemon="selectedPokemonOne"></pokemon-detail>
-      <pokemon-two :allPokemon="allPokemon"></pokemon-two>
-      <pokemon-detail v-if="selectedPokemonTwo" :pokemon="selectedPokemonTwo"></pokemon-detail>
+      <pokemon-one :pokemonOne="selectedPokemonOne" :allPokemon="allPokemon"></pokemon-one>
+      <pokemon-two :pokemonTwo="selectedPokemonTwo" :allPokemon="allPokemon"></pokemon-two>
     </div>
-    <button v-if="!battleStarted" v-on:click="startBattle">Start Battle</button>
+    <button id="start-btn" v-if="!battleStarted && selectedPokemonOne && selectedPokemonTwo" v-on:click="startBattle">Start</button>
     <poke-battle v-if="battleStarted" :pokemonOne="selectedPokemonOne" :pokemonTwo="selectedPokemonTwo"></poke-battle>
   </div>
 </template>
@@ -63,7 +61,25 @@ export default {
 }
 </script>
 
+<style media="screen">
+  * {
+    font-family: 'Sniglet', cursive;
+  }
+</style>
+
 <style lang="css" scoped>
+
+div {
+  text-align: center;
+}
+
+#start-btn {
+  height: 50px;
+  width: 50px;
+  border-radius: 30px;
+  background-color: #ff0909;
+  box-shadow: inset 0 0 7px black;
+}
 
 #pokemon-container {
   display: flex;

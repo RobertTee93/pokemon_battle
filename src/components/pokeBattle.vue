@@ -1,6 +1,7 @@
 <template lang="html">
   <div>
     <div v-if="!winner" id="game-container">
+      <button id="a-btn" v-if="!winner" v-on:click="handleAttack">A</button>
       <img id="pokemon-one" :src="pokemonOne.sprites.back_default" alt="">
       <img id="pokemon-two" :src="pokemonTwo.sprites.front_default" alt="">
       <div id="pokemon-one-health">
@@ -9,8 +10,13 @@
       <div id="pokemon-two-health">
         <div :style="{width: pokemonTwoHealth + '%' }"></div>
       </div>
+      <div class="info-box">
+        <p v-if="damage && previousPlayer">{{ previousPlayer.name }} has dealt {{ damage }} damage!</p>
+      </div>
+      <div class="info-box">
+        <p v-if="!damage && !previousPlayer">{{ currentPlayer.name }} To make the first move</p>
+      </div>
     </div>
-      <button v-if="!winner" v-on:click="handleAttack">{{ currentPlayer.name }} Attack</button>
       <winner v-if="winner" :pokemon="winner"></winner>
   </div>
 </template>
@@ -25,6 +31,8 @@ export default {
       pokemonOneHealth: 0,
       pokemonTwoHealth: 0,
       currentPlayer: null,
+      previousPlayer: null,
+      damage: null,
       winner: null
     }
   },
@@ -46,21 +54,27 @@ export default {
     },
     handleAttack(){
       if (this.currentPlayer.name === this.pokemonOne.name){
-        this.pokemonTwoHealth -= this.randomAttackNumber()
+        const power = this.randomAttackNumber()
+        this.pokemonTwoHealth -= power
+        this.damage = power
         this.checkifKo()
         if (this.winner === null) {
           this.currentPlayer = this.pokemonTwo
+          this.previousPlayer = this.pokemonOne
         }
       } else if (this.currentPlayer.name === this.pokemonTwo.name){
-        this.pokemonOneHealth -= this.randomAttackNumber()
+        const power = this.randomAttackNumber()
+        this.pokemonOneHealth -= power
+        this.damage = power
         this.checkifKo()
         if (this.winner === null) {
           this.currentPlayer = this.pokemonOne
+          this.previousPlayer = this.pokemonTwo
         }
       }
     },
     randomAttackNumber(){
-      return Math.floor(Math.random() * this.currentPlayer.base_experience / 10)
+      return Math.floor(Math.random() * this.currentPlayer.base_experience / 10 + 1)
     },
     checkifKo(){
       if (this.pokemonOneHealth < 0 || this.pokemonTwoHealth < 0 ){
@@ -83,6 +97,22 @@ export default {
   height: 224px;
   width: 480px;
   overflow: hidden;
+  margin: auto;
+  margin-top: 100px;
+  box-shadow: inset 0 0 20px black;
+  border: 3px black solid;
+  border-radius: 20px;
+}
+
+#a-btn {
+  width: 70px;
+  height: 70px;
+  border-radius: 100px;
+  position: absolute;
+  top: 10px;
+  left: 20px;
+  box-shadow: inset 0 0 8px black;
+  background-color: #00ff16;
 }
 
 #pokemon-one {
@@ -102,24 +132,39 @@ export default {
   border-radius: 5px;
   position: absolute;
   top: 150px;
-  left: 5px;
+  left: 18px;
 }
 
 #pokemon-two-health {
   width: 100px;
   border: 2px solid #000;
   border-radius: 5px;
+  position: absolute;
+  top: 10px;
+  right: 25px;
 }
 
 #pokemon-one-health div {
-  height: 8px;
+  height: 5px;
   border-radius: 5px;
   background: green;
 }
 #pokemon-two-health div {
-  height: 8px;
+  height: 5px;
   border-radius: 5px;
   background: green;
+}
+
+.info-box {
+  border: black 2px solid;
+  position: absolute;
+  bottom: 5px;
+  right: 10px;
+  height: 70px;
+  width: 300px;
+  border-radius: 10px;
+  background-color: #366eec47;
+  text-align: center;
 }
 
 </style>
