@@ -1,12 +1,12 @@
 <template lang="html">
   <div id="search-box" >
-    <h1>Choose Your Pokemon</h1>
+    <h2>Choose 2nd Pokemon</h2>
     <img src="https://static.skillshare.com/uploads/parentClasses/c1f31e7b1049b383197c23589d6c3ede/77881667" alt="Img not available">
     <Dropdown v-if="allPokemon"
     id="searchBox"
     :options="allPokemon"
     :disabled="false"
-    v-on:selected="selectedPokemon"
+    v-on:selected="selectedPokemonTwo"
     placeholder="Search for pokemon here">
   </Dropdown>
 </div>
@@ -20,6 +20,7 @@ export default {
   data(){
     return {
       currentPokemon: null,
+      foundPokemon: null
     }
   },
   props: ["allPokemon"],
@@ -28,18 +29,18 @@ export default {
       fetch(this.currentPokemon)
       .then(result => result.json())
       .then((result) => {
-        eventBus.$emit("pokemon-selected", result)
+        this.foundPokemon = result
+        eventBus.$emit("pokemon-two-selected", this.foundPokemon)
       })
     },
     getDropdownValues(){
       return this.filteredOptions
     },
-    selectedPokemon(selected){
+    selectedPokemonTwo(selected){
       if (selected.name){
         this.currentPokemon = selected.url
         this.getPokemonInfo()
       }
-
     }
   },
   components: {
@@ -52,12 +53,6 @@ export default {
 
 img {
   width: 50px;
-}
-
-div {
-  margin: auto;
-  margin-top: 40px;
-  width: 250px;
 }
 
 </style>
