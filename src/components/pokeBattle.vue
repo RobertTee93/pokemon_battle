@@ -1,14 +1,16 @@
 <template lang="html">
-  <div>
+  <div id="battle-container">
     <div v-if="!winner" id="game-container">
-      <button id="a-btn" v-if="!winner" v-on:click="handleAttack">A</button>
-      <img id="pokemon-one" :src="pokemonOne.sprites.back_default" alt="">
-      <img id="pokemon-two" :src="pokemonTwo.sprites.front_default" alt="">
+      <button id="a-btn" v-if="!winner" v-on:click="handleAttack">Attack</button>
+      <img v-if="pokemonOneAttack" id="pokemon-one-attack" :src="pokemonOne.sprites.back_default" alt="">
+      <img v-if="!pokemonOneAttack" id="pokemon-one" :src="pokemonOne.sprites.back_default" alt="">
+      <img v-if="pokemonTwoAttack" id="pokemon-two-attack" :src="pokemonTwo.sprites.front_default" alt="">
+      <img v-if="!pokemonTwoAttack" id="pokemon-two" :src="pokemonTwo.sprites.front_default" alt="">
       <div id="pokemon-one-health">
-        <div :style="{width: pokemonOneHealth + '%' }"></div>
+        <div :style="{width: pokemonOneHealth / 5 + '%' }"></div>
       </div>
       <div id="pokemon-two-health">
-        <div :style="{width: pokemonTwoHealth + '%' }"></div>
+        <div :style="{width: pokemonTwoHealth / 5 + '%' }"></div>
       </div>
       <div class="info-box">
         <p v-if="damage && previousPlayer">{{ previousPlayer.name }} has dealt {{ damage }} damage!</p>
@@ -29,7 +31,9 @@ export default {
   data(){
     return{
       pokemonOneHealth: 0,
+      pokemonOneAttack: false,
       pokemonTwoHealth: 0,
+      pokemonTwoAttack: false,
       currentPlayer: null,
       previousPlayer: null,
       damage: null,
@@ -41,8 +45,8 @@ export default {
   },
   methods: {
     getPokemonHealth(){
-      this.pokemonOneHealth = 100
-      this.pokemonTwoHealth = 100
+      this.pokemonOneHealth = 500
+      this.pokemonTwoHealth = 500
     },
     getFirstPlayer(){
       if (this.pokemonOne.stats[0].base_stat >
@@ -57,6 +61,8 @@ export default {
         const power = this.randomAttackNumber()
         this.pokemonTwoHealth -= power
         this.damage = power
+        this.pokemonTwoAttack = false
+        this.pokemonOneAttack = true
         this.checkifKo()
         if (this.winner === null) {
           this.currentPlayer = this.pokemonTwo
@@ -66,6 +72,8 @@ export default {
         const power = this.randomAttackNumber()
         this.pokemonOneHealth -= power
         this.damage = power
+        this.pokemonTwoAttack = true
+        this.pokemonOneAttack = false
         this.checkifKo()
         if (this.winner === null) {
           this.currentPlayer = this.pokemonOne
@@ -74,7 +82,7 @@ export default {
       }
     },
     randomAttackNumber(){
-      return Math.floor(Math.random() * this.currentPlayer.base_experience / 10 + 1)
+      return Math.floor(Math.random() * this.currentPlayer.stats[4].base_stat + 1)
     },
     checkifKo(){
       if (this.pokemonOneHealth < 0 || this.pokemonTwoHealth < 0 ){
@@ -91,6 +99,11 @@ export default {
 
 <style lang="css" scoped>
 
+#battle-container {
+  width: 480px;
+  margin: auto;
+  height: 300px;
+}
 
 #game-container {
   position: relative;
@@ -120,13 +133,28 @@ export default {
   position: absolute;
   top: 150px;
   left: 20px;
-  animation: pokeOneMove 1s ease-out infinite;
+  animation: pokeOneMove 5s ease-out infinite;
 }
+
+#pokemon-one-attack {
+  position: absolute;
+  top: 150px;
+  left: 20px;
+  animation: pokeOneAttack 0.5s ease-out 1;
+}
+
 #pokemon-two {
   position: absolute;
   left: 350px;
   top: 20px;
   animation: pokeTwoMove 1s ease-out infinite;
+}
+
+#pokemon-two-attack {
+  position: absolute;
+  left: 350px;
+  top: 20px;
+  animation: pokeTwoAttack 0.5s ease-out 1;
 }
 
 #pokemon-one-health {
@@ -225,5 +253,42 @@ export default {
     top: 20px;
   }
 }
+
+@keyframes pokeOneAttack {
+  0% {
+    position: absolute;
+    top: 150px;
+    left: 20px;
+  }
+  50% {
+    position: absolute;
+    top: 70px;
+    left: 200px;
+  }
+  100% {
+    position: absolute;
+    top: 150px;
+    left: 20px;
+  }
+}
+
+@keyframes pokeTwoAttack {
+  0% {
+    position: absolute;
+    left: 350px;
+    top: 20px;
+  }
+  50% {
+    position: absolute;
+    left: 200px;
+    top: 70px;
+  }
+  100% {
+    position: absolute;
+    left: 350px;
+    top: 20px;
+  }
+}
+
 
 </style>

@@ -13,7 +13,6 @@
 import PokemonOne from "./components/pokemonOne.vue"
 import PokemonTwo from "./components/pokemonTwo.vue"
 import PokeBattle from "./components/pokeBattle"
-import PokemonDetail from "./components/pokemonDetail.vue"
 import { eventBus } from "./main.js"
 export default {
   name: "App",
@@ -55,8 +54,7 @@ export default {
   components: {
     PokemonOne,
     PokemonTwo,
-    PokeBattle,
-    PokemonDetail
+    PokeBattle
   }
 }
 </script>
